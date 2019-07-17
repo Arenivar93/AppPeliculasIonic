@@ -10,6 +10,7 @@ import { Pelicula } from '../interfaces/interfaces';
 export class Tab1Page implements OnInit {
 
   peliculasRecientes: Pelicula[] = [];
+  populares: Pelicula[] = [];
 
   constructor( private moviesService: MoviesService ) {
 
@@ -21,6 +22,20 @@ export class Tab1Page implements OnInit {
         console.log('Resp', resp);
         this.peliculasRecientes = resp.results;
       } );
+    this.getPopulares();
+  }
+  cargarMas() {
+    this.getPopulares();
+  }
+
+  getPopulares() {
+    this.moviesService.getPopulares()
+    .subscribe( resp => {
+      // console.log('Polulares', resp);
+      const arrTemp = [ ...this.populares, ...resp.results ];
+      // console.log('Polulares', arrTemp);
+      this.populares = arrTemp;
+    });
   }
 
 }

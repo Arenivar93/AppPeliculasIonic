@@ -1,0 +1,33 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { identifierModuleUrl } from '@angular/compiler';
+import { MoviesService } from '../../services/movies.service';
+import { PeliculaDetalle } from '../../interfaces/interfaces';
+
+@Component({
+  selector: 'app-detalle',
+  templateUrl: './detalle.component.html',
+  styleUrls: ['./detalle.component.scss'],
+})
+export class DetalleComponent implements OnInit {
+
+  @Input() id;
+
+  pelicula: PeliculaDetalle = {};
+  oculto = 150;
+
+  constructor( private moviesService: MoviesService) { }
+
+  ngOnInit() {
+    // console.log("ID", this.id);
+    this.moviesService.getPeliculaDetalle( this.id )
+      .subscribe( resp => {
+        console.log( resp );
+        this.pelicula = resp;
+      });
+    this.moviesService.getActoresPelicula( this.id )
+      .subscribe( resp => {
+        console.log( resp );
+      });
+  }
+
+}
